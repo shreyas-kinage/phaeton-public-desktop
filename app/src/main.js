@@ -52,6 +52,14 @@ const createWindow = () => {
 app.on('ready', () => {
   appIsReady = true;
   createWindow();
+  const updateApp = require('update-electron-app');
+
+  updateApp({
+    repo: 'shreyas-kinage/phaeton-public-desktop', // defaults to package.json
+    updateInterval: '5 minutes',
+    notifyUser: true
+  });
+
   if (process.platform === 'win32') {
     app.setAppUserModelId('io.lisk.hub');
   }
