@@ -5,12 +5,12 @@
   "license": "GPL-3.0",
   "productName": "Phaeton-Desktop",
   "description": "Phaeton-Desktop",
-  "homepage": "https://github.com/Phaeton-Blockchain/phaeton-desktop",
-  "bugs": "https://github.com/Phaeton-Blockchain/phaeton-desktop/issues",
+  "homepage": "https://github.com/shreyas-kinage/phaeton-public-desktop",
+  "bugs": "https://github.com/shreyas-kinage/phaeton-public-desktop/issues",
   "main": "main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Phaeton-Blockchain/phaeton-desktop"
+    "url": "https://github.com/shreyas-kinage/phaeton-public-desktop"
   },
   "engines": {
     "node": ">=v12.7.0"
@@ -175,6 +175,7 @@
     "stream-browserify": "2.0.2",
     "trezor-connect": "8.1.26",
     "trezor.js": "9.3.4",
+    "update-electron-app": "2.0.1",
     "usb": "1.7.0",
     "webpack-merge": "=4.1.5"
   },
