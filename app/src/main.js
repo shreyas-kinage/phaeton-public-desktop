@@ -55,7 +55,7 @@ app.on('ready', () => {
   const updateApp = require('update-electron-app');
 
   updateApp({
-    repo: 'shreyas-kinage/phaeton-public-desktop', // defaults to package.json
+    repo: 'shreyas-kinage/phaeton-public-desktop',
     updateInterval: '5 minutes',
     notifyUser: true
   });
