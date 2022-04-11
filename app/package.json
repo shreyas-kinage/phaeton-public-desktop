@@ -1,0 +1,17 @@
+{
+  "name": "Phaeton-desktop",
+  "version": "1.0.6",
+  "productName": "Phaeton",
+  "description": "Phaeton",
+  "main": "./build/main.js",
+  "author": {
+    "name": "Phaeton Pty Ltd.",
+    "email": "admin@phaeton.io"
+  },
+  "dependencies": {
+    "get-port": "5.1.1",
+    "node-abi": "2.26.0",
+    "node-hid": "2.1.1",
+    "usb": "1.7.0"
+  }
+}

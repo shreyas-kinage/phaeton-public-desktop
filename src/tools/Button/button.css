@@ -1,0 +1,77 @@
+.colouredbutton {
+  background-color: #ef474d;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+  box-shadow: none;
+}
+.darkbutton svg{
+  fill:#ff8f8f; 
+}
+.darkbutton:hover svg, .darkbutton:hover{
+  fill: white;
+  color: #fff !important;
+  background: #242831 !important;
+}
+
+.colouredbutton > i {
+  padding-right: 10px;
+}
+
+.colouredbutton .btn.focus,
+.btn:focus {
+  box-shadow: inherit;
+}
+
+.colouredbutton:hover {
+  box-shadow: 0px 10px 19px rgba(219, 68, 74, 0.21) !important;
+  color: #fff;
+}
+
+.darkbutton {
+  background-color: #373c47 !important;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+}
+
+.darkbutton > i {
+  padding-right: 10px;
+}
+
+.transparentbutton {
+  background-color: transparent !important;
+  color: #fff;
+  font-weight: 500;
+  text-align: start;
+}
+
+.transparentbutton > i {
+  padding-right: 10px;
+}
+
+.btn.focus,
+.btn:focus {
+  box-shadow: none !important;
+  outline: 0;
+}
+
+.togglebutton {
+  color: #ff8f8f;
+  text-align: left;
+  align-items: center;
+  justify-content: space-between;
+  border: 0px solid;
+  font-weight: 200;
+  border-radius: 4px;
+  background-color: #3c404b;
+}
+
+.togglebutton span {
+  margin-left: 10px;
+}
+
+.togglebutton:hover {
+  color: #fff !important;
+  background: #242831 !important;
+}

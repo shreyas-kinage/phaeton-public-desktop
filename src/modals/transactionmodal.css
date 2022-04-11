@@ -1,0 +1,44 @@
+/* TRANSACTION MODAL CSS */
+.modaltransaction {
+  text-align: start;
+  color: #fff;
+  /* background-color: #2b2f39; */
+}
+
+.receive {
+  background-color: #53c737;
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.receivesendtext {
+  color: #a1a1a1;
+  text-align: center;
+  margin: 30px 15px 5px 15px;
+}
+
+.send {
+  background-color: #ef474d;
+  height: 140px;
+  width: 140px;
+  border-radius: 50%;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.hoverbutton {
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.hoverbutton:hover {
+  cursor: pointer;
+  background-color: rgba(60, 64, 75, 0.7);
+}
+
+/* END */

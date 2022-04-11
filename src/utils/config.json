@@ -1,0 +1,18 @@
+{
+    "networks": [
+        {
+            "Name": "Testnet",
+            "serviceUrl": "https://service1-rivet.phaeton.io",
+            "prefix": "phae",
+            "networkIdentifier": "35ea1cf112c401824b124b81d1d7b6af009d8e2bb54fa149d9dc75ec22ae8dbf",
+            "explorerURL": "https://explorer.phaeton.io"
+        },
+        {
+            "Name": "Mainnet",
+            "serviceUrl": "https://service1-truss.phaeton.io",
+            "prefix": "phae",
+            "networkIdentifier": "3fcd57d0c5da944e49b2a810090b277c3231333218e29bf0ecd87653dcb44fe8",
+            "explorerURL": "https://explorer.phaeton.io"
+        }
+    ]
+}

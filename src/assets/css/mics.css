@@ -1,0 +1,51 @@
+/* Miscellaneous CSS */
+input:focus,
+select:focus,
+textarea:focus,
+button:focus,
+i:focus {
+  outline: none;
+}
+
+.far.fa-check,
+.far.fa-clone {
+  color: #6c757d !important;
+}
+
+.far.fa-clone:hover {
+  color: #39429a !important;
+  filter: grayscale(0) brightness(150%);
+}
+
+.far.fa-file-download {
+  color: #6c757d !important;
+}
+
+.far.fa-file-download:hover {
+  color: #39429a !important;
+  filter: grayscale(0) brightness(150%);
+}
+
+.border-secondary {
+  border-color: rgb(60, 64, 75) !important;
+}
+
+
+.dropdown-item:hover {
+  background-color: rgb(60, 64, 75) !important;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+  background-color: rgb(60, 64, 75) !important;
+}
+
+.loader {
+  width: 5rem;
+  height: 5rem;
+  position: fixed;
+  top: 48%;
+  left: 49%;
+  z-index: 9999;
+  /* color: #ef474d; */
+}
+/* ******* */

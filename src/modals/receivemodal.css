@@ -1,0 +1,37 @@
+.togglebutton {
+  color: #ff8f8f !important;
+  text-align: start;
+  align-items: center;
+  justify-content: space-between;
+  border: 0px solid;
+  font-weight: 200;
+  border-radius: 4px;
+  margin-top: 15px;
+  background-color: #3c404b;
+}
+
+.MuiToggleButton-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.MuiToggleButton-root .Mui-selected {
+  background-color: #373c47 !important;
+  color: #ff8f8f !important;
+}
+
+.infoimge {
+  vertical-align: middle;
+  float: left;
+  margin: 2px 5px 10px 0px;
+}
+
+.info {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #84868a;
+}

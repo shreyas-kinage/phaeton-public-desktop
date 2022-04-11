@@ -1,0 +1,7 @@
+@import './base.css';
+
+.button {
+  @mixin buttonBasics;
+
+  width: auto;
+}

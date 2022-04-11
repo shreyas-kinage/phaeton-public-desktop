@@ -1,0 +1,58 @@
+/* Private and Seed Phrase Import */
+
+.seedsign {
+  border-radius: 12px;
+}
+
+h1 {
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-bottom: 0;
+  color: #fff;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #a1a1a1;
+  margin-bottom: 36px;
+}
+
+.subSubtitle {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0px;
+  color: #fff;
+}
+
+.darkcard {
+  background-color: #2b2f39;
+  border-radius: 12px;
+  color: #fff;
+  padding: 20px;
+}
+
+.newcard {
+  padding: 10px 0px 20px 0px;
+  background-color: #222631;
+  border-radius: 0px 0px 12px 12px;
+}
+
+.newcard p {
+  /* margin-left: 10px; */
+  color: #a1a1a1;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* End */

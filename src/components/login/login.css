@@ -1,0 +1,67 @@
+.cardcontainer {
+  border-radius: 12px !important;
+}
+
+.cardcontainer span {
+  font-size: 42px;
+  font-style: normal;
+  color: #fff;
+  font-weight: 700;
+  line-height: 56px;
+  letter-spacing: -0.32px;
+  text-align: left;
+  margin-bottom: 0;
+}
+
+.welcomeText {
+  color: #fff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: 0px;
+  text-align: start;
+}
+
+@media (max-width: 1359px) {
+  .cardcontainer {
+    left: 0;
+  }
+}
+
+.darkcard {
+  background-color: #2b2f39;
+  border-radius: 12px;
+  margin: auto;
+  padding: 30px;
+}
+
+.heading {
+  color: #fff;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.darkcard input {
+  border-radius: 4px;
+  background-color: inherit;
+  border: 1px solid #76787d;
+  width: 100%;
+}
+
+.seedlink {
+  font-size: 14px !important;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: 0px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.footer {
+  text-align: center;
+}

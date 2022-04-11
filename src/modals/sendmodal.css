@@ -1,0 +1,40 @@
+.headmodal {
+  /* padding: 10px; */
+  color: #fff;
+}
+
+.heading {
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: 0px;
+  text-align: left;
+}
+
+.redtext {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0px;
+  text-align: left;
+  color: #ef474d;
+  float: right;
+}
+
+.infoimge {
+  vertical-align: middle;
+  float: left;
+  margin: 2px 10px 10px 0px;
+}
+
+.info {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.16px;
+  text-align: left;
+}
+
