@@ -1,125 +1,148 @@
-import { autoUpdater } from 'electron-updater';
-import electron from 'electron';
-import electronLocalshortcut from 'electron-localshortcut';
-import getPort from 'get-port';
-import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
-import path from 'path';
-import win from './modules/win';
-import localeHandler from './modules/localeHandler';
-import updateChecker from './modules/autoUpdater';
-import server from '../server';
-import i18nSetup from '../../i18n/i18n-setup';
-import { storage, setConfig, readConfig } from './modules/storage';
-// import { hwM } from './modules/hwManager';
+const { app, BrowserWindow, dialog, screen } = require('electron');
+const { autoUpdater } = require('electron-updater');
+const path = require('path');
+const log = require('electron-log');
 
-// hwM.listening();
-i18nSetup();
+// Handle creating/removing shortcuts on Windows when installing/uninstalling.
+if (require('electron-squirrel-startup')) {
+  // eslint-disable-line global-require
+  app.quit();
+}
 
-const defaultServerPort = 5659;
-let serverUrl;
-const startServer = () => getPort({ port: defaultServerPort })
-  .then((port) => {
-    serverUrl = server.init(port);
-  });
-
-startServer();
-
-const checkForUpdates = updateChecker({
-  autoUpdater,
-  dialog: electron.dialog,
-  win,
-  process,
-  electron,
-});
-
-const { app, ipcMain } = electron;
-let appIsReady = false;
+let mainWindow;
 
 const createWindow = () => {
-  win.create({
-    electron, path, electronLocalshortcut, storage, checkForUpdates, serverUrl,
+  const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+  // Create the browser window.
+  mainWindow = new BrowserWindow({
+    width: width > 1680 ? 1680 : width,
+    height: height > 1050 ? 1050 : height,
+    minHeight: 576,
+    minWidth: 769,
+    center: true,
+    webPreferences: {}
   });
 
-  if (process.env.DEBUG) {
-    installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
-      // eslint-disable-next-line no-console
-      .then((name) => console.info(`Added Extension:  ${name}`))
-      // eslint-disable-next-line no-console
-      .catch((err) => console.info('An error occurred: ', err));
-  }
+  // and load the index.html of the app.
+  mainWindow.loadFile(path.join(__dirname, '../../src/index.html'));
+
 };
 
-app.on('ready', () => {
-  appIsReady = true;
-  createWindow();
-  if (process.platform === 'win32') {
-    app.setAppUserModelId('io.lisk.hub');
-  }
-});
+autoUpdater.autoDownload = true;
+autoUpdater.logger = log;
 
+log.info('starting...');
+
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-// This will override the values defined in the app’s .plist file (macOS)
-if (process.platform === 'darwin') {
-  const copyright = `Copyright © 2016 - ${new Date().getFullYear()} Lisk Foundation`;
-  app.setAboutPanelOptions({ applicationName: 'Lisk', copyright });
-}
-
 app.on('activate', () => {
-  // sometimes, the event is triggered before app.on('ready', ...)
-  // then creating new windows will fail
-  if (win.browser === null && appIsReady) {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });
 
-// Set app protocol
-app.setAsDefaultProtocolClient('lisk');
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and import them here.
 
-// Force single instance application
-app.requestSingleInstanceLock();
-app.on('second-instance', (argv) => {
-  if (process.platform !== 'darwin') {
-    win.send({ event: 'openUrl', value: argv[1] || '/' });
-  }
-  if (win.browser) {
-    if (win.browser.isMinimized()) win.browser.restore();
-    win.browser.focus();
-  }
-});
+app.on('ready', () => {
+  createWindow();
 
-// ToDo - enable this feature when it is implemented in the new design
-app.on('will-finish-launching', () => {
-  // Protocol handler for MacOS
-  app.on('open-url', (event, url) => {
-    event.preventDefault();
-    win.browser.show();
-    win.send({ event: 'openUrl', value: url });
+
+  autoUpdater.checkForUpdatesAndNotify();
+
+  const options = {
+    buttons: ['OK'],
+    message: `Phaeton is ready ${app.getVersion()} \n https://update.electronjs.org/shreyas-kinage/phaeton-public-desktop/${process.platform}-${process.arch}/1.0.7`,
+  };
+  dialog.showMessageBox(mainWindow, options, () => { });
+
+  autoUpdater.setFeedURL(`https://update.electronjs.org/shreyas-kinage/phaeton-public-desktop/${process.platform}-${process.arch}/1.0.7`)
+
+  /*checking for updates*/
+  autoUpdater.on("checking-for-update", () => {
+    const options = {
+      buttons: ['OK'],
+      message: `'Phaeton Checking for updates /n Version' ${app.getVersion()}`,
+    };
+    dialog.showMessageBox(mainWindow, options, () => { });
   });
+
+  /*No updates available*/
+  autoUpdater.on("update-not-available", info => {
+    log.info(info);
+    const options = {
+      buttons: ['OK'],
+      message: `'Phaeton Checking for updates ${info} /n Version' ${app.getVersion()}`,
+    };
+    dialog.showMessageBox(mainWindow, options, () => { });
+    //your code
+  });
+
+  /*New Update Available*/
+  autoUpdater.on("update-available", info => {
+    log.info(info);
+    const options = {
+      buttons: ['OK'],
+      message: `'Update available ${info} /n Version' ${app.getVersion()}`,
+    };
+    dialog.showMessageBox(mainWindow, options, () => { });
+    //your code
+  });
+
+  /*Download Status Report*/
+  autoUpdater.on("download-progress", progressObj => {
+    log.info(progressObj);
+    const options = {
+      buttons: ['OK'],
+      message: `'Download in progess /n Version' ${app.getVersion()}`,
+    };
+    dialog.showMessageBox(mainWindow, options, () => { });
+    //your code
+  });
+
+  /*Download Completion Message*/
+  autoUpdater.on("update-downloaded", info => {
+    log.info(info);
+    const options = {
+      buttons: ['OK'],
+      message: `'Downloaded the update ${info} /n Version' ${app.getVersion()}`,
+    };
+    dialog.showMessageBox(mainWindow, options, () => { });
+    //your code
+  });
+
+  autoUpdater.on("error", (error) => {
+    console.error('There was a problem updating the application');
+    log.info(error);
+    // eslint-disable-next-line no-console
+    console.error(error);
+    const options = {
+      buttons: ['OK'],
+      message: `'Phaeton Error ${error} \n Version' ${app.getVersion()}`,
+    };
+    dialog.showMessageBox(mainWindow, options, () => { });
+  });
+
+
+  autoUpdater.checkForUpdatesAndNotify();
+
+  // var updateApp = require('update-electron-app');
+
+  // updateApp({
+  //   repo: 'shreyas-kinage/phaeton-public-desktop', // defaults to package.json
+  //   updateInterval: '5 minutes',
+  //   notifyUser: true,
+  //   logger: log,
+  // });
 });
 
-// ToDo - enable this feature when it is implemented in the new design
-ipcMain.on('set-locale', (event, locale) => {
-  const langCode = locale.substr(0, 2);
-  if (langCode) {
-    localeHandler.update({
-      langCode, electron, storage, event, checkForUpdates,
-    });
-  }
-});
 
-ipcMain.on('request-locale', () => {
-  localeHandler.send({ storage });
-});
-
-ipcMain.on('storeConfig', (event, data) => {
-  setConfig(data);
-});
-
-ipcMain.on('retrieveConfig', () => {
-  readConfig();
-});

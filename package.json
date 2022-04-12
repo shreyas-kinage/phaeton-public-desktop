@@ -1,16 +1,16 @@
 {
   "name": "Phaeton-desktop",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "Phaeton Pty Ltd. <admin@phaeton.io>",
   "license": "GPL-3.0",
   "productName": "Phaeton-Desktop",
   "description": "Phaeton-Desktop",
-  "homepage": "https://github.com/Phaeton-Blockchain/phaeton-desktop",
-  "bugs": "https://github.com/Phaeton-Blockchain/phaeton-desktop/issues",
-  "main": "main.js",
+  "homepage": "https://github.com/shreyas-kinage/phaeton-public-desktop",
+  "bugs": "https://github.com/shreyas-kinage/phaeton-public-desktop/issues",
+  "main": "app/src/main.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Phaeton-Blockchain/phaeton-desktop"
+    "url": "https://github.com/shreyas-kinage/phaeton-public-desktop"
   },
   "engines": {
     "node": ">=v12.7.0"
@@ -24,7 +24,7 @@
     "build:prod": "webpack --config ./config/webpack.config.prod",
     "build:electron": "webpack --config ./config/webpack.config.electron",
     "dist": "electron-builder --x64 --publish onTag",
-    "dist:win": "electron-builder --win --ia32 --x64 --publish onTag",
+    "dist:win": "electron-builder --win --ia32 --x64 --publish always",
     "dist:mac": "electron-builder --mac",
     "dist:linux": "electron-builder --linux --x64 --publish onTag",
     "pack": "npm ci && npm run build && npm run clean:dist && npm run dist",
@@ -55,9 +55,11 @@
       ]
     },
     "artifactName": "Phaeton-${os}-${arch}-${version}.${ext}",
-    "publish": [
-      "github"
-    ],
+    "publish": [{
+      "provider": "github",
+      "owner": "shreyas-kinage",
+      "repo": "shreyas-kinage/phaeton-public-desktop"
+    }],
     "linux": {
       "target": [
         "AppImage"
@@ -127,6 +129,8 @@
     "crypto-browserify": "^3.12.0",
     "dpos-ledger-api": "3.0.1",
     "electron-localshortcut": "3.2.1",
+    "electron-log": "4.4.6",
+    "electron-squirrel-startup": "1.0.0",
     "electron-store": "8.0.0",
     "enzyme-adapter-react-16": "1.15.6",
     "express": "4.16.4",
@@ -175,6 +179,7 @@
     "stream-browserify": "2.0.2",
     "trezor-connect": "8.1.26",
     "trezor.js": "9.3.4",
+    "update-electron-app": "2.0.1",
     "usb": "1.7.0",
     "webpack-merge": "=4.1.5"
   },

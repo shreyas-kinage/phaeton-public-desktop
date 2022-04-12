@@ -1,6 +1,6 @@
 {
   "name": "Phaeton-desktop",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "productName": "Phaeton",
   "description": "Phaeton",
   "main": "./build/main.js",
