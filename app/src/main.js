@@ -1,7 +1,8 @@
 const { app, BrowserWindow, dialog, screen } = require('electron');
 const { autoUpdater } = require('electron-updater');
-const path = require('path');
-const log = require('electron-log');
+const getPort = require('get-port');
+const os = require('os');
+import server from '../server';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -10,6 +11,14 @@ if (require('electron-squirrel-startup')) {
 }
 
 let mainWindow;
+const defaultServerPort = 5659;
+let serverUrl;
+const startServer = () => getPort({ port: defaultServerPort })
+  .then((port) => {
+    serverUrl = server.init(port);
+  });
+
+startServer();
 
 const createWindow = () => {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
@@ -24,14 +33,11 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, '../../src/index.html'));
+  mainWindow.loadURL(serverUrl);
 
 };
 
 autoUpdater.autoDownload = true;
-autoUpdater.logger = log;
-
-log.info('starting...');
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -61,11 +67,11 @@ app.on('ready', () => {
 
   const options = {
     buttons: ['OK'],
-    message: `Phaeton is ready ${app.getVersion()} \n https://update.electronjs.org/shreyas-kinage/phaeton-public-desktop/${process.platform}-${process.arch}/1.0.7`,
+    message: `Phaeton is ready ${app.getVersion()} \n https://update.electronjs.org/shreyas-kinage/phaeton-public-desktop/${os.platform()}-${os.arch()}/${app.getVersion()}`,
   };
   dialog.showMessageBox(mainWindow, options, () => { });
 
-  autoUpdater.setFeedURL(`https://update.electronjs.org/shreyas-kinage/phaeton-public-desktop/${process.platform}-${process.arch}/1.0.7`)
+  autoUpdater.setFeedURL(`https://update.electronjs.org/shreyas-kinage/phaeton-public-desktop/${os.platform()}-${os.arch()}/${app.getVersion()}`);
 
   /*checking for updates*/
   autoUpdater.on("checking-for-update", () => {
@@ -78,7 +84,6 @@ app.on('ready', () => {
 
   /*No updates available*/
   autoUpdater.on("update-not-available", info => {
-    log.info(info);
     const options = {
       buttons: ['OK'],
       message: `'Phaeton Checking for updates ${info} /n Version' ${app.getVersion()}`,
@@ -89,7 +94,6 @@ app.on('ready', () => {
 
   /*New Update Available*/
   autoUpdater.on("update-available", info => {
-    log.info(info);
     const options = {
       buttons: ['OK'],
       message: `'Update available ${info} /n Version' ${app.getVersion()}`,
@@ -100,7 +104,6 @@ app.on('ready', () => {
 
   /*Download Status Report*/
   autoUpdater.on("download-progress", progressObj => {
-    log.info(progressObj);
     const options = {
       buttons: ['OK'],
       message: `'Download in progess /n Version' ${app.getVersion()}`,
@@ -111,7 +114,6 @@ app.on('ready', () => {
 
   /*Download Completion Message*/
   autoUpdater.on("update-downloaded", info => {
-    log.info(info);
     const options = {
       buttons: ['OK'],
       message: `'Downloaded the update ${info} /n Version' ${app.getVersion()}`,
@@ -122,7 +124,6 @@ app.on('ready', () => {
 
   autoUpdater.on("error", (error) => {
     console.error('There was a problem updating the application');
-    log.info(error);
     // eslint-disable-next-line no-console
     console.error(error);
     const options = {
