@@ -55,11 +55,7 @@
       ]
     },
     "artifactName": "Phaeton-${os}-${arch}-${version}.${ext}",
-    "publish": [{
-      "provider": "github",
-      "owner": "shreyas-kinage",
-      "repo": "shreyas-kinage/phaeton-public-desktop"
-    }],
+    "publish": "github",
     "linux": {
       "target": [
         "AppImage"
