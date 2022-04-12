@@ -7,7 +7,7 @@
   "description": "Phaeton-Desktop",
   "homepage": "https://github.com/shreyas-kinage/phaeton-public-desktop",
   "bugs": "https://github.com/shreyas-kinage/phaeton-public-desktop/issues",
-  "main": "main.js",
+  "main": "app/src/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/shreyas-kinage/phaeton-public-desktop"
@@ -24,7 +24,7 @@
     "build:prod": "webpack --config ./config/webpack.config.prod",
     "build:electron": "webpack --config ./config/webpack.config.electron",
     "dist": "electron-builder --x64 --publish onTag",
-    "dist:win": "electron-builder --win --ia32 --x64 --publish onTag",
+    "dist:win": "electron-builder --win --ia32 --x64 --publish always",
     "dist:mac": "electron-builder --mac",
     "dist:linux": "electron-builder --linux --x64 --publish onTag",
     "pack": "npm ci && npm run build && npm run clean:dist && npm run dist",
@@ -41,7 +41,46 @@
     "analyze:bundles": "webpack  --config ./config/webpack.config.analyze",
     "copy:files": "cpx \"./src/{index.html,assets/**/*}\" ./app/build/",
     "clean:build": "rm -rf app/build",
-    "clean:dist": "rm -rf dist"
+    "clean:dist": "rm -rf dist",
+    "publish": "rm -rf out && electron-forge publish"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "shreyas-kinage",
+              "name": "phaeton-public-desktop"
+            }
+          }
+        }
+      ],
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "react_electron_test"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   },
   "build": {
     "asar": true,
@@ -68,6 +107,9 @@
       "category": "Network"
     },
     "win": {
+      "publish": [
+        "github"
+      ],
       "target": "nsis"
     },
     "mac": {
@@ -102,6 +144,7 @@
     "stepDefinitions": "features/"
   },
   "dependencies": {
+    "@electron-forge/publisher-github": "6.0.0-beta.63",
     "@formspree/react": "2.2.4",
     "@ledgerhq/hw-transport-node-hid": "5.50.0",
     "@ledgerhq/hw-transport-u2f": "5.33.1-alpha.3",
@@ -126,7 +169,10 @@
     "cross-env": "7.0.3",
     "crypto-browserify": "^3.12.0",
     "dpos-ledger-api": "3.0.1",
+    "electron-forge": "5.2.4",
     "electron-localshortcut": "3.2.1",
+    "electron-log": "4.4.6",
+    "electron-squirrel-startup": "1.0.0",
     "electron-store": "8.0.0",
     "enzyme-adapter-react-16": "1.15.6",
     "express": "4.16.4",
@@ -172,6 +218,7 @@
     "redux": "4.0.1",
     "redux-thunk": "2.3.0",
     "socket.io-client": "2.2.0",
+    "squirrel": "1.0.0",
     "stream-browserify": "2.0.2",
     "trezor-connect": "8.1.26",
     "trezor.js": "9.3.4",
@@ -187,6 +234,11 @@
     "@babel/plugin-transform-runtime": "7.13.15",
     "@babel/preset-env": "7.13.15",
     "@babel/preset-react": "7.13.13",
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
     "@percy/storybook": "3.3.1",
     "@storybook/addon-actions": "6.2.9",
     "@storybook/addon-links": "6.2.9",

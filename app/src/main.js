@@ -1,133 +1,78 @@
-import { autoUpdater } from 'electron-updater';
-import electron from 'electron';
-import electronLocalshortcut from 'electron-localshortcut';
-import getPort from 'get-port';
-import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
-import path from 'path';
-import win from './modules/win';
-import localeHandler from './modules/localeHandler';
-import updateChecker from './modules/autoUpdater';
-import server from '../server';
-import i18nSetup from '../../i18n/i18n-setup';
-import { storage, setConfig, readConfig } from './modules/storage';
-// import { hwM } from './modules/hwManager';
+const { app, BrowserWindow, dialog } = require('electron');
+const { autoUpdater } = require('electron-updater');
+const path = require('path');
 
-// hwM.listening();
-i18nSetup();
+setInterval(() => {
+  autoUpdater.checkForUpdatesAndNotify();
+}, 10 * 60 * 1000)
 
-const defaultServerPort = 5659;
-let serverUrl;
-const startServer = () => getPort({ port: defaultServerPort })
-  .then((port) => {
-    serverUrl = server.init(port);
-  });
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: process.platform === 'win32' ? releaseNotes : releaseName,
+    detail: 'A new version has been downloaded. Restart the application to apply the updates.'
+  }
 
-startServer();
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  })
+})
 
-const checkForUpdates = updateChecker({
-  autoUpdater,
-  dialog: electron.dialog,
-  win,
-  process,
-  electron,
-});
+autoUpdater.on('update-not-available', (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Ok'],
+    title: 'Not Application Update',
+    detail: 'A new version has not found.'
+  }
 
-const { app, ipcMain } = electron;
-let appIsReady = false;
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall()
+  })
+})
+
+autoUpdater.on('error', message => {
+  console.error('There was a problem updating the application')
+  console.error(message)
+})
+
 
 const createWindow = () => {
-  win.create({
-    electron, path, electronLocalshortcut, storage, checkForUpdates, serverUrl,
+  // Create the browser window.
+  const mainWindow = new BrowserWindow({
+    width: 500,
+    height: 400,
+    webPreferences: {}
   });
 
-  if (process.env.DEBUG) {
-    installExtension([REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
-      // eslint-disable-next-line no-console
-      .then((name) => console.info(`Added Extension:  ${name}`))
-      // eslint-disable-next-line no-console
-      .catch((err) => console.info('An error occurred: ', err));
-  }
+  // and load the index.html of the app.
+  mainWindow.loadFile(path.join(__dirname, '../src/index.html'));
+
 };
 
-app.on('ready', () => {
-  appIsReady = true;
-  createWindow();
-  const updateApp = require('update-electron-app');
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.on('ready', createWindow);
 
-  updateApp({
-    repo: 'shreyas-kinage/phaeton-public-desktop', // defaults to package.json
-    updateInterval: '5 minutes',
-    notifyUser: true
-  });
-
-  if (process.platform === 'win32') {
-    app.setAppUserModelId('io.lisk.hub');
-  }
-});
-
+// Quit when all windows are closed, except on macOS. There, it's common
+// for applications and their menu bar to stay active until the user quits
+// explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-// This will override the values defined in the app’s .plist file (macOS)
-if (process.platform === 'darwin') {
-  const copyright = `Copyright © 2016 - ${new Date().getFullYear()} Lisk Foundation`;
-  app.setAboutPanelOptions({ applicationName: 'Lisk', copyright });
-}
-
 app.on('activate', () => {
-  // sometimes, the event is triggered before app.on('ready', ...)
-  // then creating new windows will fail
-  if (win.browser === null && appIsReady) {
+  // On OS X it's common to re-create a window in the app when the
+  // dock icon is clicked and there are no other windows open.
+  if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });
 
-// Set app protocol
-app.setAsDefaultProtocolClient('lisk');
-
-// Force single instance application
-app.requestSingleInstanceLock();
-app.on('second-instance', (argv) => {
-  if (process.platform !== 'darwin') {
-    win.send({ event: 'openUrl', value: argv[1] || '/' });
-  }
-  if (win.browser) {
-    if (win.browser.isMinimized()) win.browser.restore();
-    win.browser.focus();
-  }
-});
-
-// ToDo - enable this feature when it is implemented in the new design
-app.on('will-finish-launching', () => {
-  // Protocol handler for MacOS
-  app.on('open-url', (event, url) => {
-    event.preventDefault();
-    win.browser.show();
-    win.send({ event: 'openUrl', value: url });
-  });
-});
-
-// ToDo - enable this feature when it is implemented in the new design
-ipcMain.on('set-locale', (event, locale) => {
-  const langCode = locale.substr(0, 2);
-  if (langCode) {
-    localeHandler.update({
-      langCode, electron, storage, event, checkForUpdates,
-    });
-  }
-});
-
-ipcMain.on('request-locale', () => {
-  localeHandler.send({ storage });
-});
-
-ipcMain.on('storeConfig', (event, data) => {
-  setConfig(data);
-});
-
-ipcMain.on('retrieveConfig', () => {
-  readConfig();
-});
+// In this file you can include the rest of your app's specific main process
+// code. You can also put them in separate files and import them here.
