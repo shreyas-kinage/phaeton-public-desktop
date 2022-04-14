@@ -29,7 +29,7 @@ const retrieveSchemas = async ({ serviceUrl }) => {
 };
 
 const splitModuleAndAssetIds = (moduleAssetId) => {
-  const [moduleID, assetID] = moduleAssetId.split(":");
+  const [moduleID, assetID] = moduleAssetId?.split(":");
   return [Number(moduleID), Number(assetID)];
 };
 

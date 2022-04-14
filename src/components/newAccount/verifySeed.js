@@ -31,7 +31,7 @@ function VerifySeed() {
       10
     );
     let passArray = JSON.parse(passphrases);
-    pass = passArray.split(" ");
+    pass = passArray?.split(" ");
     return pass;
   }
 
@@ -146,7 +146,7 @@ function VerifySeed() {
                       className={`${styles.inputVerify} w-100 ${styles.phrases}`}
                     />
                   ) : (
-                      <span id={`verify${eid}`} className={`${styles.phrases}`}>
+                    <span id={`verify${eid}`} className={`${styles.phrases}`}>
                       {element}
                     </span>
                   )}

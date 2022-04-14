@@ -117,7 +117,7 @@ function SendModal(props) {
       return;
     }
     if (amounts.includes(".")) {
-      var splitAmount = amounts.toString().split(".");
+      var splitAmount = amounts?.toString().split(".");
       if (splitAmount.length == 2 && splitAmount[1].length > 8) {
         setDecimalWarning(true);
         setDefaultState(true);
@@ -274,7 +274,7 @@ function SendModal(props) {
       return;
     }
     if (e.target.value.includes(".")) {
-      var splitAmount = e.target.value.toString().split(".");
+      var splitAmount = e.target.value?.toString().split(".");
       if (splitAmount.length == 2 && splitAmount[1].length > 8) {
         setDProcessWarning(true);
         setFeeThree("0");

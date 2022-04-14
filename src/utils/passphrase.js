@@ -108,7 +108,7 @@ export const isValidPassphrase = (passphrase) => {
   const normalizedValue = passphrase.replace(/ +/g, ' ').trim();
   let isValid;
   try {
-    isValid = normalizedValue.split(' ').length >= 12 && mnemonic.isValid(normalizedValue);
+    isValid = normalizedValue?.split(' ').length >= 12 && mnemonic.isValid(normalizedValue);
   } catch (e) {
     // If the mnemonic check throws an error, we assume that the
     // passphrase being entered isn't valid

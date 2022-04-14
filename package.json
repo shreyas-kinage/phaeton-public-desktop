@@ -1,6 +1,6 @@
 {
   "name": "Phaeton-desktop",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "author": "Phaeton Pty Ltd. <admin@phaeton.io>",
   "license": "GPL-3.0",
   "productName": "Phaeton-Desktop",
@@ -46,6 +46,15 @@
   "build": {
     "asar": true,
     "appId": "io.Phaeton.hub",
+    "nsis": {
+      "artifactName": "Phaeton-Setup-${version}.${ext}",
+      "oneClick": true,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": true,
+      "allowToChangeInstallationDirectory": false,
+      "runAfterFinish": true,
+      "differentialPackage": true
+    },
     "copyright": "Copyright © 2017-2020 Phaeton",
     "afterSign": "electron-builder-notarize",
     "protocols": {
@@ -55,7 +64,9 @@
       ]
     },
     "artifactName": "Phaeton-${os}-${arch}-${version}.${ext}",
-    "publish": "github",
+    "publish": [
+      "github"
+    ],
     "linux": {
       "target": [
         "AppImage"
@@ -166,12 +177,14 @@
     "react-piwik": "1.6.0",
     "react-router": "5.0.1",
     "react-router-dom": "5.0.1",
+    "react-scripts": "5.0.1",
     "react-string-replace": "0.4.4",
     "react-toastify": "5.5.0",
     "react-waypoint": "9.0.3",
     "redux": "4.0.1",
     "redux-thunk": "2.3.0",
     "socket.io-client": "2.2.0",
+    "squirrel": "1.0.0",
     "stream-browserify": "2.0.2",
     "trezor-connect": "8.1.26",
     "trezor.js": "9.3.4",

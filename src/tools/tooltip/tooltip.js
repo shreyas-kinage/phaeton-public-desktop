@@ -67,7 +67,7 @@ class Tooltip extends React.Component {
     const {
       infoIcon = '', tooltip = '',
     } = this.props.styles || {};
-    const positionStyles = position.split(' ')
+    const positionStyles = position?.split(' ')
       .filter(key => ['top', 'bottom', 'left', 'right'].indexOf(key) >= 0)
       .map(key => styles[key])
       .join(' ');

@@ -9,7 +9,7 @@ export const parseSearchParams = (search) => {
 
   // eslint-disable-next-line no-restricted-syntax, no-unused-vars
   for (const [key, value] of searchParams.entries()) {
-    const values = value.split(',');
+    const values = value?.split(',');
     if (values.length > 1) {
       parsedParams[key] = values;
     } else { parsedParams[key] = value; }

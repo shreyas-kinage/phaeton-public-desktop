@@ -107,7 +107,7 @@ function UnlockModal(props) {
             return;
         }
         if (amounts.includes(".")) {
-            var splitAmount = amounts.toString().split(".");
+            var splitAmount = amounts?.toString().split(".");
             if (splitAmount.length == 2 && splitAmount[1].length > 8) {
                 setDecimalWarning(true);
                 return;
@@ -393,7 +393,7 @@ function UnlockModal(props) {
         try {
             let url = new URL(document.location.href);
             let hash = url.hash.toString();
-            const addressUrl = hash.split("=", 2);
+            const addressUrl = hash?.split("=", 2);
             let addressSpace = addressUrl[1];
             let address = addressSpace.slice(0, 42);
             if (address == null) {

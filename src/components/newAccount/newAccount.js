@@ -32,7 +32,7 @@ function Account() {
       );
       let passArray = JSON.parse(passphrases);
       setTextCopy(passArray);
-      pass = passArray.split(" ");
+      pass = passArray?.split(" ");
       setKeyWords(pass);
     }
     getPass();

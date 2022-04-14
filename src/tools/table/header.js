@@ -21,7 +21,7 @@ const Tip = ({ data }) => {
 const Sort = ({ data, currentSort, children }) => {
   if (data && typeof data.fn === "function") {
     const [currentKey, direction] = currentSort
-      ? currentSort.split(":")
+      ? currentSort?.split(":")
       : [null, "inactive"];
     const directions = {
       desc: styles.sortDesc,
@@ -32,9 +32,8 @@ const Sort = ({ data, currentSort, children }) => {
     return (
       <span
         onClick={() => data.fn(data.key)}
-        className={`${styles.titleWrapper} sort-by ${data.key} ${
-          currentKey === data.key ? directions[direction] : directions.inactive
-        }`}
+        className={`${styles.titleWrapper} sort-by ${data.key} ${currentKey === data.key ? directions[direction] : directions.inactive
+          }`}
       >
         {children}
       </span>
